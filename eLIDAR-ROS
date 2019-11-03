@@ -28,7 +28,7 @@ int publisher_timer;
 
 geometry_msgs::TransformStamped t;
 tf::TransformBroadcaster broadcaster;
-ros:: Publisher pub_Laser("LaserData", &CDLaser_msg);  
+ros:: Publisher pub_Laser("LaserData", &Lidar_msg);  
 char base_link[] = "/base_link";
 char odom[] = "/odom";
 ros::NodeHandle nh;
@@ -38,19 +38,19 @@ void setup()
   nh.initNode();
   nh.advertise(pub_Laser);
    broadcaster.init(nh);
-  f_angle_min = -1.57;
-  f_angle_max = 1.57;
-  f_angle_increment = 0.785;  // 3.14/4   - 5 measurement points
+  f_angle_min = 0;
+  f_angle_max = 6.28;
+  f_angle_increment = 0.785398;  // 3.14/4   - 8 measurement points
   f_time_increment = 10;
   f_scan_time = 4;
   f_range_min = 0.1;
-  f_range_max = 30;
+  f_range_max = 2.5;
 
-  CDLaser_msg.ranges_length = 5;
-  CDLaser_msg.intensities_length = 5;
+  Lidar_msg.ranges_length = 8;
+  Lidar_msg.intensities_length = 8;
 
   // create the test data
-  for (int z = 0 ; z<5; z++)
+  for (int z = 0 ; z<8; z++)
   {
     f_ranges[z] = z;
     f_intensities[z] = z*z;
@@ -61,37 +61,37 @@ void loop()
 {
   if (millis() > publisher_timer)
   {
-    CDLaser_msg.header.stamp = nh.now();
-    CDLaser_msg.header.frame_id = "/lidar_frame";
-    CDLaser_msg.angle_min = f_angle_min;
-    CDLaser_msg.angle_max = f_angle_max;
-    CDLaser_msg.angle_increment = f_angle_increment;
-    CDLaser_msg.time_increment = f_time_increment;
-    CDLaser_msg.scan_time = f_scan_time;
-    CDLaser_msg.range_min = f_range_min;
-    CDLaser_msg.range_max = f_range_max;
+    Lidar_msg.header.stamp = nh.now();
+    Lidar_msg.header.frame_id = "/lidar_frame";
+    Lidar_msg.angle_min = f_angle_min;
+    Lidar_msg.angle_max = f_angle_max;
+    Lidar_msg.angle_increment = f_angle_increment;
+    Lidar_msg.time_increment = f_time_increment;
+    Lidar_msg.scan_time = f_scan_time;
+    Lidar_msg.range_min = f_range_min;
+    Lidar_msg.range_max = f_range_max;
 
-    for (int z = 0 ; z<5; z++)
+    for (int z = 0 ; z<8; z++)
     {
-      CDLaser_msg.ranges[z] = f_ranges[z];
+      Lidar_msg.ranges[z] = f_ranges[z];
     }
 
-    for (int z = 0 ; z<5; z++)
+    for (int z = 0 ; z<8; z++)
     {
-      CDLaser_msg.intensities[z] = f_intensities[z];
+      Lidar_msg.intensities[z] = f_intensities[z];
     }
 
     publisher_timer = millis() + 1000;
-    pub_Laser.publish(&CDLaser_msg);
+    pub_Laser.publish(Lidar_msg);
     t.header.frame_id = odom;
-     t.child_frame_id = base_link;
+    t.child_frame_id = base_link;
     t.transform.translation.x = 1.0; 
-     t.transform.rotation.x = 0.0;
+    t.transform.rotation.x = 0.0;
     t.transform.rotation.y = 0.0; 
-     t.transform.rotation.z = 0.0; 
-     t.transform.rotation.w = 1.0;  
+    t.transform.rotation.z = 0.0; 
+    t.transform.rotation.w = 1.0;  
     t.header.stamp = nh.now();
-     broadcaster.sendTransform(t);
+    broadcaster.sendTransform(t);
   }
   nh.spinOnce();
   delay(50);
