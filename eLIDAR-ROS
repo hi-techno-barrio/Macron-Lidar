@@ -149,7 +149,7 @@ void setup()
   // create the test data
   for (int z = 0 ; z<8; z++)
   {
-    f_ranges[z] = z;
+    f_ranges[z] = scanDistance(z);
     f_intensities[z] = z*z;
   }
 }
@@ -192,5 +192,47 @@ void loop()
   }
   nh.spinOnce();
   delay(50);
+}
+
+ float scanDistance(int cntAngle)
+{
+ float Range;
+
+switch (cntAngle)
+{
+  case 1:
+   Range=sensor.readRangeContinuousMillimeters();
+    break; 
+  
+   case 2:
+   Range=sensor2.readRangeContinuousMillimeters(); 
+   break; 
+  
+   case 3:
+   Range=sensor3.readRangeContinuousMillimeters(); 
+   break; 
+  
+   case 4:
+   Range=sensor4.readRangeContinuousMillimeters();
+   break; 
+  
+   case 5:
+   Range=sensor5.readRangeContinuousMillimeters();  
+   break; 
+    
+   case 6:
+   Range=sensor6.readRangeContinuousMillimeters();
+   break; 
+  
+  case 7:
+   Range=sensor7.readRangeContinuousMillimeters();
+   break; 
+  
+  case 8:
+   Range=sensor8.readRangeContinuousMillimeters();   
+   break;  
+ } // case
+
+return Range;
 }
 
