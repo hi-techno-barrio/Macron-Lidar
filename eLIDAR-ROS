@@ -11,7 +11,7 @@
 #include <sensor_msgs/LaserScan.h>
 #include <tf/transform_broadcaster.h>
  
-sensor_msgs::LaserScan CDLaser_msg;
+sensor_msgs::LaserScan Lidar_msg;
 
 //
 float f_angle_min;
