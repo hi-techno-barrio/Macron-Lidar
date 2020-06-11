@@ -13,6 +13,6 @@ Logistics
 
 
 
-XetrinoBot Mecanum Version
-![Xentrinobots ](https://github.com/hi-techno-barrio/XENTRINOBot-ROS/blob/master/images/Xentrino-4WD-Mechanum.png)
+Macron Lidar
+![Macron Lidar ](https://github.com/hi-techno-barrio/Macron-Lidar/blob/master/image/MacRon-Lidar-3.jpg?raw=true)
 
